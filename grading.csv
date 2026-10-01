@@ -1,0 +1,21 @@
+id,topic,difficulty,key,llm_answer,correct(Y/N),error_type,justification
+P01,A. Hypothesis testing,Easy,1.835,1.834 (rounded to three decimal places),Y,None,Correct answer matching ground truth 1.835.
+P02,A. Hypothesis testing,Medium,-9.487,-9.487,Y,None,Correct answer matching ground truth -9.487.
+P03,A. Hypothesis testing,Hard,3.543,3.543,Y,None,Correct answer matching ground truth 3.543.
+P04,A. Hypothesis testing,Medium,8.000,8.000,Y,None,Correct answer matching ground truth 8.000.
+P05,B. Confidence intervals,Easy,54.612,54.612.,Y,None,Correct answer matching ground truth 54.612.
+P06,B. Confidence intervals,Medium,3.921,3.920,Y,None,Correct answer matching ground truth 3.921.
+P07,B. Confidence intervals,Medium,0.2565,0.2565,Y,None,Correct answer matching ground truth 0.2565.
+P08,B. Confidence intervals,Hard,0.0723,0.0723,Y,None,Correct answer matching ground truth 0.0723.
+P09,C. p-value interpretation,Easy,C,C,Y,None,Correct answer matching ground truth C.
+P10,C. p-value interpretation,Medium,B,B,Y,None,Correct answer matching ground truth B.
+P11,C. p-value interpretation,Hard,A,A,Y,None,Correct answer matching ground truth A.
+P12,C. p-value interpretation,Medium,C,C,Y,None,Correct answer matching ground truth C.
+P13,D. Regression assumptions,Easy,B,B,Y,None,Correct answer matching ground truth B.
+P14,D. Regression assumptions,Medium,C,C,Y,None,Correct answer matching ground truth C.
+P15,D. Regression assumptions,Hard,A,A,Y,None,Correct answer matching ground truth A.
+P16,D. Regression assumptions,Medium,A,A,Y,None,Correct answer matching ground truth A.
+P17,E. Bayes' theorem,Easy,0.0194,0.0194,Y,None,Correct answer matching ground truth 0.0194.
+P18,E. Bayes' theorem,Hard,0.2818,,N,Other,"Reported '' vs expected '0.2818'. Likely failure: Assuming two consecutive positive tests guarantee >90% posterior certainty, or incorrectly compounding probabilities."
+P19,E. Bayes' theorem,Medium,0.4762,0.4762,Y,None,Correct answer matching ground truth 0.4762.
+P20,E. Bayes' theorem,Hard,B,B,Y,None,Correct answer matching ground truth B.

@@ -1,0 +1,40 @@
+**Solution**
+
+Let \(D\) denote the event “the sensor is defective” and \(M_i\) the event “the sensor comes from line \(M_i\)”.
+
+Using Bayes’ theorem:
+
+\[
+P(M_3 \mid D)=\frac{P(D \mid M_3)\,P(M_3)}{P(D)}
+\]
+
+First compute the overall probability of a defect:
+
+\[
+\begin{aligned}
+P(D) &= P(D \mid M_1)P(M_1)+P(D \mid M_2)P(M_2)+P(D \mid M_3)P(M_3)\\
+&= (0.02)(0.50)+(0.04)(0.30)+(0.10)(0.20)\\
+&= 0.0100+0.0120+0.0200\\
+&= 0.0420
+\end{aligned}
+\]
+
+Now compute the numerator:
+
+\[
+P(D \mid M_3)P(M_3) = (0.10)(0.20) = 0.0200
+\]
+
+Finally,
+
+\[
+P(M_3 \mid D)=\frac{0.0200}{0.0420}\approx 0.476190476
+\]
+
+Rounded to four decimal places:
+
+\[
+\boxed{0.4762}
+\]
+
+**FINAL ANSWER:** 0.4762

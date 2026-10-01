@@ -1,0 +1,222 @@
+[
+  {
+    "id": "P01",
+    "topic": "A. Hypothesis testing",
+    "difficulty": "Easy",
+    "model": "openai/gpt-oss-120b",
+    "temperature": 0.0,
+    "tools_allowed": false,
+    "prompt": "Solve the following statistics problem. Show your reasoning, then give a final answer on a line starting 'FINAL ANSWER:'.\n\nProblem:\nA quality control manager at a semiconductor manufacturing plant tests the claim that at most 5% of manufactured microchips are defective (H0: p <= 0.05 vs H1: p > 0.05). A simple random sample of n = 400 chips is inspected, revealing x = 28 defective chips. Conduct a one-sample z-test for the proportion at alpha = 0.05. Use the standard normal approximation without continuity correction, computing the standard error under the null hypothesis. What is the value of the test statistic z? Round your final answer to 3 decimal places.",
+    "raw_response": "The sample proportion is  \n\n\\[\n\\hat p=\\frac{x}{n}= \\frac{28}{400}=0.07 .\n\\]\n\nUnder the null hypothesis \\(p_0 = 0.05\\), the standard error is  \n\n\\[\nSE = \\sqrt{\\frac{p_0(1-p_0)}{n}}\n     = \\sqrt{\\frac{0.05\\cdot0.95}{400}}\n     = \\sqrt{\\frac{0.0475}{400}}\n     = \\sqrt{0.00011875}\n     \\approx 0.010902 .\n\\]\n\nThe z\u2011statistic (using the normal approximation without continuity correction) is  \n\n\\[\nz = \\frac{\\hat p - p_0}{SE}\n    = \\frac{0.07 - 0.05}{0.010902}\n    \\approx \\frac{0.02}{0.010902}\n    \\approx 1.834 .\n\\]\n\n**FINAL ANSWER:** 1.834 (rounded to three decimal places)",
+    "final_answer": "1.834 (rounded to three decimal places)"
+  },
+  {
+    "id": "P02",
+    "topic": "A. Hypothesis testing",
+    "difficulty": "Medium",
+    "model": "openai/gpt-oss-120b",
+    "temperature": 0.0,
+    "tools_allowed": false,
+    "prompt": "Solve the following statistics problem. Show your reasoning, then give a final answer on a line starting 'FINAL ANSWER:'.\n\nProblem:\nA clinical trial evaluates the efficacy of an antihypertensive drug on n = 10 hypertensive patients. Systolic blood pressure (mmHg) is measured before and after a 4-week treatment period. The recorded differences for each patient (d_i = After_i - Before_i) are: [-6, -4, -8, -5, -7, -3, -9, -4, -6, -8]. Assume the differences are approximately normally distributed. Conduct a paired-samples t-test for H0: mu_d = 0 versus H1: mu_d != 0 at alpha = 0.01. What is the value of the paired t-test statistic t? Round your final answer to 3 decimal places.",
+    "raw_response": "**Step\u2011by\u2011step calculation**\n\n1. **Differences**  \n   \\(d = [-6,\\,-4,\\,-8,\\,-5,\\,-7,\\,-3,\\,-9,\\,-4,\\,-6,\\,-8]\\)\u2003\\(n=10\\)\n\n2. **Mean of the differences**  \n\\[\n\\bar d=\\frac{\\sum d_i}{n}= \\frac{-60}{10}= -6.0\n\\]\n\n3. **Sample standard deviation**  \n\n\\[\n\\begin{aligned}\n\\text{Deviations }(d_i-\\bar d)&=[0,\\,2,\\,-2,\\,1,\\,-1,\\,3,\\,-3,\\,2,\\,0,\\,-2] \\\\\n\\text{Squares}&=[0,4,4,1,1,9,9,4,0,4] \\\\\n\\sum (d_i-\\bar d)^2 &= 36 \\\\\ns_d &= \\sqrt{\\frac{36}{n-1}}=\\sqrt{\\frac{36}{9}}=\\sqrt{4}=2.0\n\\end{aligned}\n\\]\n\n4. **Standard error of the mean difference**  \n\n\\[\nSE = \\frac{s_d}{\\sqrt{n}} = \\frac{2}{\\sqrt{10}} = \\frac{2}{3.16227766}=0.632456\n\\]\n\n5. **t\u2011statistic**  \n\n\\[\nt = \\frac{\\bar d - 0}{SE}= \\frac{-6.0}{0.632456}= -9.4868\n\\]\n\nRounded to three decimal places:\n\n\\[\n\\boxed{t = -9.487}\n\\]\n\n**FINAL ANSWER:** -9.487",
+    "final_answer": "-9.487"
+  },
+  {
+    "id": "P03",
+    "topic": "A. Hypothesis testing",
+    "difficulty": "Hard",
+    "model": "openai/gpt-oss-120b",
+    "temperature": 0.0,
+    "tools_allowed": false,
+    "prompt": "Solve the following statistics problem. Show your reasoning, then give a final answer on a line starting 'FINAL ANSWER:'.\n\nProblem:\nAn agronomist compares crop yields (in bushels/acre) from two independent randomized plots using two distinct soil treatments.\nPlot 1: n1 = 12, sample mean xbar1 = 24.5, sample standard deviation s1 = 1.8\nPlot 2: n2 = 25, sample mean xbar2 = 21.0, sample standard deviation s2 = 4.2\nThe population variances cannot be assumed equal (sigma1^2 != sigma2^2). Using Welch's two-sample t-test (unpooled variance) for H0: mu1 - mu2 = 0 versus H1: mu1 - mu2 != 0, calculate the test statistic t. Round your final answer to 3 decimal places.",
+    "raw_response": "The Welch two\u2011sample t statistic is  \n\n\\[\nt=\\frac{\\bar x_1-\\bar x_2}{\\sqrt{\\dfrac{s_1^{2}}{n_1}+\\dfrac{s_2^{2}}{n_2}}}\n   =\\frac{24.5-21.0}{\\sqrt{\\dfrac{1.8^{2}}{12}+\\dfrac{4.2^{2}}{25}}}\n   =\\frac{3.5}{\\sqrt{0.27+0.7056}}\n   =\\frac{3.5}{\\sqrt{0.9756}}\n   \\approx\\frac{3.5}{0.9877}\n   \\approx 3.543 .\n\\]\n\n**FINAL ANSWER:** 3.543",
+    "final_answer": "3.543"
+  },
+  {
+    "id": "P04",
+    "topic": "A. Hypothesis testing",
+    "difficulty": "Medium",
+    "model": "openai/gpt-oss-120b",
+    "temperature": 0.0,
+    "tools_allowed": false,
+    "prompt": "Solve the following statistics problem. Show your reasoning, then give a final answer on a line starting 'FINAL ANSWER:'.\n\nProblem:\nA medical trial evaluates patient recovery under two treatments. A random sample of 200 patients yields the following 2x2 contingency table:\n- Treatment A: 40 Recovered, 60 Not Recovered (Total = 100)\n- Treatment B: 60 Recovered, 40 Not Recovered (Total = 100)\nCalculate Pearson's chi-square test statistic (chi^2) for testing independence between treatment and recovery, without applying Yates' continuity correction. Round your final answer to 3 decimal places.",
+    "raw_response": "**Reasoning**\n\nThe observed counts are  \n\n\\[\n\\begin{array}{c|cc|c}\n & \\text{Recovered} & \\text{Not Recovered} & \\text{Total}\\\\ \\hline\n\\text{Treatment A} & 40 & 60 & 100\\\\\n\\text{Treatment B} & 60 & 40 & 100\\\\ \\hline\n\\text{Total} & 100 & 100 & 200\n\\end{array}\n\\]\n\nUnder the null hypothesis of independence, the expected count for each cell is  \n\n\\[\nE_{ij}= \\frac{(\\text{row total})(\\text{column total})}{N}\n\\]\n\nso each expected count is  \n\n\\[\nE_{11}=E_{12}=E_{21}=E_{22}= \\frac{100 \\times 100}{200}=50.\n\\]\n\nPearson\u2019s chi\u2011square statistic (without Yates\u2019 correction) is  \n\n\\[\n\\chi^2 = \\sum \\frac{(O_{ij}-E_{ij})^{2}}{E_{ij}}\n       = \\frac{(40-50)^2}{50} + \\frac{(60-50)^2}{50}\n         + \\frac{(60-50)^2}{50} + \\frac{(40-50)^2}{50}\n       = 2 + 2 + 2 + 2 = 8.\n\\]\n\nRounded to three decimal places, \\(\\chi^2 = 8.000\\).\n\n**FINAL ANSWER:** 8.000",
+    "final_answer": "8.000"
+  },
+  {
+    "id": "P05",
+    "topic": "B. Confidence intervals",
+    "difficulty": "Easy",
+    "model": "openai/gpt-oss-120b",
+    "temperature": 0.0,
+    "tools_allowed": false,
+    "prompt": "Solve the following statistics problem. Show your reasoning, then give a final answer on a line starting 'FINAL ANSWER:'.\n\nProblem:\nA chemical engineer measures the concentration of an active compound in n = 9 batches produced under identical conditions. The population is assumed to be normally distributed with unknown variance. The sample mean is xbar = 50.0 mg/L and the sample standard deviation is s = 6.0 mg/L. Calculate the upper limit of a two-sided 95% confidence interval for the true population mean mu. Round your final answer to 3 decimal places.",
+    "raw_response": "The 95\u202f% confidence interval for the mean with unknown variance is  \n\n\\[\n\\bar x \\pm t_{\\,\\alpha/2,\\;df}\\;\\frac{s}{\\sqrt{n}},\n\\]\n\nwhere \\(df=n-1=8\\) and \\(t_{0.025,8}=2.306\\).\n\nMargin of error  \n\n\\[\nE = 2.306 \\times \\frac{6}{\\sqrt{9}} = 2.306 \\times 2 = 4.612.\n\\]\n\nUpper limit  \n\n\\[\n\\bar x + E = 50.0 + 4.612 = 54.612.\n\\]\n\n**FINAL ANSWER:** 54.612.",
+    "final_answer": "54.612."
+  },
+  {
+    "id": "P06",
+    "topic": "B. Confidence intervals",
+    "difficulty": "Medium",
+    "model": "openai/gpt-oss-120b",
+    "temperature": 0.0,
+    "tools_allowed": false,
+    "prompt": "Solve the following statistics problem. Show your reasoning, then give a final answer on a line starting 'FINAL ANSWER:'.\n\nProblem:\nTwo industrial machines fill containers with liquid detergent. The fill volumes are normally distributed with known population variances: Machine 1 has sigma1^2 = 16.0, and Machine 2 has sigma2^2 = 25.0. Independent random samples are drawn:\n- Machine 1: n1 = 15, xbar1 = 78.0 mL\n- Machine 2: n2 = 20, xbar2 = 72.0 mL\nCalculate the margin of error (half-width) for a two-sided 99% confidence interval for the difference between the two population means (mu1 - mu2). Round your final answer to 3 decimal places.",
+    "raw_response": "The standard error for the difference of means (with known variances) is  \n\n\\[\nSE=\\sqrt{\\frac{\\sigma_1^{2}}{n_1}+\\frac{\\sigma_2^{2}}{n_2}}\n     =\\sqrt{\\frac{16}{15}+\\frac{25}{20}}\n     =\\sqrt{1.0667+1.2500}\n     =\\sqrt{2.3167}\\approx 1.522.\n\\]\n\nFor a two\u2011sided 99\u202f% confidence interval, the critical \\(z\\)-value is  \n\n\\[\nz_{0.995}=2.5758.\n\\]\n\nThe margin of error (half\u2011width) is  \n\n\\[\n\\text{ME}=z_{0.995}\\times SE\\approx 2.5758 \\times 1.522 \\approx 3.920.\n\\]\n\nRounded to three decimal places:\n\n**FINAL ANSWER: 3.920**",
+    "final_answer": "3.920"
+  },
+  {
+    "id": "P07",
+    "topic": "B. Confidence intervals",
+    "difficulty": "Medium",
+    "model": "openai/gpt-oss-120b",
+    "temperature": 0.0,
+    "tools_allowed": false,
+    "prompt": "Solve the following statistics problem. Show your reasoning, then give a final answer on a line starting 'FINAL ANSWER:'.\n\nProblem:\nIn a random survey of n = 100 registered voters in a municipality, x = 35 respondents indicate support for a proposed transit tax. Using the standard Wald confidence interval formula for a single population proportion, calculate the lower bound of a two-sided 95% confidence interval for the true population proportion p. Round your final answer to 4 decimal places.",
+    "raw_response": "The sample proportion is  \n\n\\[\n\\hat p = \\frac{x}{n}= \\frac{35}{100}=0.35 .\n\\]\n\nFor a two\u2011sided 95\u202f% Wald confidence interval we use  \n\n\\[\n\\hat p \\pm z_{\\alpha/2}\\sqrt{\\frac{\\hat p(1-\\hat p)}{n}},\n\\qquad z_{\\alpha/2}=1.96 .\n\\]\n\nStandard error  \n\n\\[\n\\text{SE}= \\sqrt{\\frac{0.35(1-0.35)}{100}}\n          = \\sqrt{\\frac{0.2275}{100}}\n          = \\sqrt{0.002275}\n          \\approx 0.04768 .\n\\]\n\nMargin of error  \n\n\\[\nME = 1.96 \\times 0.04768 \\approx 0.09345 .\n\\]\n\nLower bound  \n\n\\[\n\\hat p - ME = 0.35 - 0.09345 \\approx 0.25655 .\n\\]\n\nRounded to four decimal places:\n\n**FINAL ANSWER: 0.2565**",
+    "final_answer": "0.2565"
+  },
+  {
+    "id": "P08",
+    "topic": "B. Confidence intervals",
+    "difficulty": "Hard",
+    "model": "openai/gpt-oss-120b",
+    "temperature": 0.0,
+    "tools_allowed": false,
+    "prompt": "Solve the following statistics problem. Show your reasoning, then give a final answer on a line starting 'FINAL ANSWER:'.\n\nProblem:\nAn A/B test is conducted to compare conversion rates of two website landing page designs:\n- Design A: n1 = 200 visitors, x1 = 80 conversions\n- Design B: n2 = 250 visitors, x2 = 60 conversions\nUsing the standard unpooled Wald method for independent samples, calculate the margin of error (half-width) of a two-sided 90% confidence interval for the difference in conversion proportions (p1 - p2). Round your final answer to 4 decimal places.",
+    "raw_response": "The sample proportions are  \n\n\\[\n\\hat p_1=\\frac{80}{200}=0.40 ,\\qquad \n\\hat p_2=\\frac{60}{250}=0.24 .\n\\]\n\nFor the un\u2011pooled Wald method the standard error of the difference \\(\\hat p_1-\\hat p_2\\) is  \n\n\\[\n\\text{SE}= \\sqrt{\\frac{\\hat p_1(1-\\hat p_1)}{n_1}+\\frac{\\hat p_2(1-\\hat p_2)}{n_2}}\n       =\\sqrt{\\frac{0.40\\cdot0.60}{200}+\\frac{0.24\\cdot0.76}{250}}\n       =\\sqrt{0.0012+0.0007296}\n       =\\sqrt{0.0019296}\n       \\approx 0.04395 .\n\\]\n\nA two\u2011sided 90\u202f% confidence interval uses the critical value  \n\n\\[\nz_{1-\\alpha/2}=z_{0.95}\\approx 1.6449 .\n\\]\n\nHence the margin of error (half\u2011width) is  \n\n\\[\n\\text{ME}=z_{0.95}\\times\\text{SE}\n        \\approx 1.6449 \\times 0.04395\n        \\approx 0.072291 .\n\\]\n\nRounded to four decimal places:\n\n**FINAL ANSWER:** 0.0723",
+    "final_answer": "0.0723"
+  },
+  {
+    "id": "P09",
+    "topic": "C. p-value interpretation",
+    "difficulty": "Easy",
+    "model": "openai/gpt-oss-120b",
+    "temperature": 0.0,
+    "tools_allowed": false,
+    "prompt": "Solve the following statistics problem. Show your reasoning, then give a final answer on a line starting 'FINAL ANSWER:'.\n\nProblem:\nA clinical trial testing a new headache medication against an active control reports a two-tailed p-value of p = 0.03. Which of the following statements provides the only correct definition and interpretation of this p-value?\nA) There is a 3% probability that the null hypothesis of no difference between treatments is true.\nB) There is a 97% probability that the new medication is superior to the control.\nC) Assuming that the null hypothesis is true, the probability of observing a test statistic at least as extreme as the one calculated from the sample data is 0.03.\nD) The probability of obtaining a false positive result if this experiment is replicated under identical conditions is exactly 0.03.\nAnswer with a single letter (A, B, C, or D).",
+    "raw_response": "C\nFINAL ANSWER: C",
+    "final_answer": "C"
+  },
+  {
+    "id": "P10",
+    "topic": "C. p-value interpretation",
+    "difficulty": "Medium",
+    "model": "openai/gpt-oss-120b",
+    "temperature": 0.0,
+    "tools_allowed": false,
+    "prompt": "Solve the following statistics problem. Show your reasoning, then give a final answer on a line starting 'FINAL ANSWER:'.\n\nProblem:\nIn an observational study tracking n = 500,000 office workers over two years, an ergonomic software tool was found to reduce daily sedentary time by an average of 42 seconds (95% CI: [38, 46] seconds, p < 0.0001). A company executive announces: 'Because the p-value is less than 0.0001, this tool provides overwhelming practical health benefits and transforms workplace activity levels.' Which of the following evaluations of the executive's claim is most accurate?\nA) The executive is correct because an extremely small p-value guarantees a large magnitude of effect in the population.\nB) The executive is incorrect because in very large sample sizes, tiny effects with negligible practical importance can produce minuscule p-values.\nC) The executive is correct because the narrow confidence interval confirms that the magnitude of change is clinically substantial.\nD) The executive is incorrect because any study with n > 100,000 automatically violates Gauss-Markov assumptions.\nAnswer with a single letter (A, B, C, or D).",
+    "raw_response": "B\nFINAL ANSWER: B",
+    "final_answer": "B"
+  },
+  {
+    "id": "P11",
+    "topic": "C. p-value interpretation",
+    "difficulty": "Hard",
+    "model": "openai/gpt-oss-120b",
+    "temperature": 0.0,
+    "tools_allowed": false,
+    "prompt": "Solve the following statistics problem. Show your reasoning, then give a final answer on a line starting 'FINAL ANSWER:'.\n\nProblem:\nA pilot safety trial with n = 12 patients evaluates whether a new compound induces cardiac arrhythmias compared to baseline. A two-tailed paired t-test yields t = 0.91 and p = 0.38. The lead investigator writes in the report: 'Because p > 0.05, we accept the null hypothesis and conclude that the compound produces zero arrhythmic side effects.' Why is the investigator's conclusion logically and methodologically invalid?\nA) A p-value above alpha fails to reject H0, but does not prove H0 is true; the small sample size may have resulted in inadequate statistical power to detect a clinically meaningful difference.\nB) The investigator should have concluded that there is a 38% probability that the drug causes arrhythmia.\nC) A paired t-test cannot be interpreted whenever p > 0.10.\nD) The investigator was required to divide the p-value by 2 before comparing it to alpha = 0.05.\nAnswer with a single letter (A, B, C, or D).",
+    "raw_response": "**Reasoning**\n\nA p\u2011value larger than the chosen significance level (\u03b1 = 0.05) means that the data do **not** provide sufficient evidence to reject the null hypothesis (H\u2080). It does **not** prove that H\u2080 is true. In this paired\u2011sample setting the null hypothesis is that the mean difference in arrhythmia incidence before and after the compound is zero. Failing to reject H\u2080 only tells us that, given the observed data and the sample size (n = 12), we cannot rule out the possibility of no effect; it does **not** allow us to conclude that the compound produces *zero* arrhythmic side effects.\n\nMoreover, with only 12 participants the test has limited statistical power. A true, clinically important increase (or decrease) in arrhythmias could go undetected, leading to a non\u2011significant result simply because the study is under\u2011powered. Therefore the investigator\u2019s statement \u201cwe accept the null hypothesis and conclude that the compound produces zero arrhythmic side effects\u201d overstates what the statistical test can support.\n\nThe other options are incorrect:\n- B misinterprets the p\u2011value as the probability that the drug causes arrhythmia.\n- C is false; a paired t\u2011test can be interpreted for any p\u2011value.\n- D is irrelevant; the test is already two\u2011tailed, so no division by 2 is needed.\n\n**Correct choice:** A\n\n**FINAL ANSWER:** A",
+    "final_answer": "A"
+  },
+  {
+    "id": "P12",
+    "topic": "C. p-value interpretation",
+    "difficulty": "Medium",
+    "model": "openai/gpt-oss-120b",
+    "temperature": 0.0,
+    "tools_allowed": false,
+    "prompt": "Solve the following statistics problem. Show your reasoning, then give a final answer on a line starting 'FINAL ANSWER:'.\n\nProblem:\nA genomics researcher tests 20 independent null hypotheses, conducting each hypothesis test at a nominal significance level of alpha = 0.05. Assuming that all 20 null hypotheses are actually true, what is the exact probability (rounded to 3 decimal places) that the researcher will obtain at least one statistically significant result (Type I error) if no multiple testing correction is applied?\nA) 0.050\nB) 0.358\nC) 0.642\nD) 1.000\nAnswer with a single letter (A, B, C, or D).",
+    "raw_response": "Each test has a 5\u202f% chance of a false positive.  \nThe probability that a single test does **not** give a significant result is \\(1-\\alpha = 0.95\\).\n\nBecause the 20 tests are independent, the probability that **none** of them are significant is  \n\n\\[\nP(\\text{no false positives}) = 0.95^{20}.\n\\]\n\nCompute:\n\n\\[\n0.95^{20} \\approx 0.3586.\n\\]\n\nHence the probability of obtaining **at least one** false positive (a Type\u202fI error) is  \n\n\\[\nP(\\text{\u2265\u202f1 false positive}) = 1 - 0.95^{20} \\approx 1 - 0.3586 = 0.6414.\n\\]\n\nRounded to three decimal places, this is \\(0.641\\), which matches option **C (0.642)**.\n\n**FINAL ANSWER: C**",
+    "final_answer": "C"
+  },
+  {
+    "id": "P13",
+    "topic": "D. Regression assumptions",
+    "difficulty": "Easy",
+    "model": "openai/gpt-oss-120b",
+    "temperature": 0.0,
+    "tools_allowed": false,
+    "prompt": "Solve the following statistics problem. Show your reasoning, then give a final answer on a line starting 'FINAL ANSWER:'.\n\nProblem:\nAn analyst fits an Ordinary Least Squares (OLS) multiple linear regression model predicting vehicle fuel economy. The diagnostic evaluation reports a Variance Inflation Factor (VIF) of 14.8 for the predictor variable 'vehicle weight'. Which of the following is the most direct consequence and accurate econometric interpretation of this diagnostic result?\nA) The OLS point estimate of the regression coefficient for vehicle weight is biased and systematically overestimates the true effect.\nB) High collinearity with other explanatory variables inflates the standard error of the coefficient for vehicle weight, reducing the precision of its estimation and statistical power.\nC) The regression residuals violate the assumption of normality, rendering large-sample z-tests invalid.\nD) The relationship between vehicle weight and fuel economy is fundamentally nonlinear, requiring an exponential transformation.\nAnswer with a single letter (A, B, C, or D).",
+    "raw_response": "B\nFINAL ANSWER: B",
+    "final_answer": "B"
+  },
+  {
+    "id": "P14",
+    "topic": "D. Regression assumptions",
+    "difficulty": "Medium",
+    "model": "openai/gpt-oss-120b",
+    "temperature": 0.0,
+    "tools_allowed": false,
+    "prompt": "Solve the following statistics problem. Show your reasoning, then give a final answer on a line starting 'FINAL ANSWER:'.\n\nProblem:\nAn econometrician estimates a hedonic wage equation via OLS and plots the residuals against the fitted values (y_hat). The plot reveals a clear 'funnel' (fan) pattern: the dispersion of the residuals increases systematically as the fitted wage increases. Which regression assumption is violated, and what is its primary consequence for OLS estimation?\nA) Linearity is violated; OLS coefficient estimates are biased and inconsistent.\nB) Independence of errors is violated; sequential residuals have a non-zero covariance.\nC) Homoscedasticity (constant variance of errors) is violated; OLS coefficient point estimates remain unbiased, but standard OLS standard errors are biased, invalidating standard hypothesis tests and confidence intervals.\nD) Normality of errors is violated; the Gauss-Markov theorem no longer applies to the expected values of the estimators.\nAnswer with a single letter (A, B, C, or D).",
+    "raw_response": "C\n\nFINAL ANSWER: C",
+    "final_answer": "C"
+  },
+  {
+    "id": "P15",
+    "topic": "D. Regression assumptions",
+    "difficulty": "Hard",
+    "model": "openai/gpt-oss-120b",
+    "temperature": 0.0,
+    "tools_allowed": false,
+    "prompt": "Solve the following statistics problem. Show your reasoning, then give a final answer on a line starting 'FINAL ANSWER:'.\n\nProblem:\nA macroeconomist estimates an OLS regression model of quarterly inflation using 80 sequential quarterly observations. The Durbin-Watson statistic computed from the OLS residuals is d = 0.58. What does this diagnostic statistic indicate regarding the regression error terms?\nA) Strong evidence of positive first-order autocorrelation among the residuals (d close to 0 indicates positive serial correlation).\nB) Strong evidence of negative first-order autocorrelation among the residuals (d < 2.0 indicates negative serial correlation).\nC) No evidence of serial correlation, because the value is well within the acceptable distance from 0.\nD) Residuals are perfectly independent, but the model suffers from severe structural multicollinearity.\nAnswer with a single letter (A, B, C, or D).",
+    "raw_response": "A\nFINAL ANSWER: A",
+    "final_answer": "A"
+  },
+  {
+    "id": "P16",
+    "topic": "D. Regression assumptions",
+    "difficulty": "Medium",
+    "model": "openai/gpt-oss-120b",
+    "temperature": 0.0,
+    "tools_allowed": false,
+    "prompt": "Solve the following statistics problem. Show your reasoning, then give a final answer on a line starting 'FINAL ANSWER:'.\n\nProblem:\nAn applied statistician inspects a normal Q-Q (quantile-quantile) plot of standardized OLS regression residuals. The plotted points deviate from the 45-degree reference line in a distinct 'S' pattern: in the lower tail (left), the empirical sample quantiles are lower than the theoretical normal quantiles; in the upper tail (right), the empirical sample quantiles are higher than the theoretical normal quantiles. What distribution characteristic of the residuals does this pattern signify?\nA) Heavy tails (leptokurtosis), indicating that extreme residual values occur more frequently than expected under a normal distribution.\nB) Light tails (platykurtosis), indicating that extreme residual values occur less frequently than expected under a normal distribution.\nC) Pronounced right (positive) skewness with thin left tails.\nD) Pronounced left (negative) skewness with thin right tails.\nAnswer with a single letter (A, B, C, or D).",
+    "raw_response": "The S\u2011shaped deviation shows that both tails of the residual distribution are more extreme than those of a normal distribution (more negative on the left, more positive on the right). This indicates heavier tails, i.e., leptokurtosis.\n\n**FINAL ANSWER: A**",
+    "final_answer": "A"
+  },
+  {
+    "id": "P17",
+    "topic": "E. Bayes' theorem",
+    "difficulty": "Easy",
+    "model": "openai/gpt-oss-120b",
+    "temperature": 0.0,
+    "tools_allowed": false,
+    "prompt": "Solve the following statistics problem. Show your reasoning, then give a final answer on a line starting 'FINAL ANSWER:'.\n\nProblem:\nA rapid antigen test for a rare viral infection has a sensitivity of 99% (P(Positive | Infected) = 0.99) and a specificity of 95% (P(Negative | Not Infected) = 0.95). In the target population, the disease prevalence is 0.1% (P(Infected) = 0.001). An asymptomatic individual from this population is randomly selected, tested, and receives a positive test result. Using Bayes' theorem, calculate the posterior probability that this individual is actually infected (P(Infected | Positive)). Round your final answer to 4 decimal places.",
+    "raw_response": "The posterior probability is obtained from Bayes\u2019 theorem  \n\n\\[\nP(\\text{Infected}\\mid\\text{Positive})=\n\\frac{P(\\text{Positive}\\mid\\text{Infected})\\,P(\\text{Infected})}\n     {P(\\text{Positive}\\mid\\text{Infected})\\,P(\\text{Infected})+\n      P(\\text{Positive}\\mid\\text{Not Infected})\\,P(\\text{Not Infected})}.\n\\]\n\n* Sensitivity (true\u2011positive rate): \\(P(\\text{Positive}\\mid\\text{Infected}) = 0.99\\).  \n* Specificity: \\(P(\\text{Negative}\\mid\\text{Not Infected}) = 0.95\\) \u2192  \n  \\(P(\\text{Positive}\\mid\\text{Not Infected}) = 1-0.95 = 0.05\\).  \n* Prevalence: \\(P(\\text{Infected}) = 0.001\\) \u2192 \\(P(\\text{Not Infected}) = 0.999\\).\n\nPlug in the numbers:\n\n\\[\n\\begin{aligned}\n\\text{Numerator} &= 0.99 \\times 0.001 = 0.00099,\\\\[4pt]\n\\text{Denominator} &= 0.00099 + 0.05 \\times 0.999 \\\\\n                  &= 0.00099 + 0.04995 = 0.05094.\n\\end{aligned}\n\\]\n\n\\[\nP(\\text{Infected}\\mid\\text{Positive}) = \\frac{0.00099}{0.05094}\n\\approx 0.01944.\n\\]\n\nRounded to four decimal places:\n\n\\[\n\\boxed{0.0194}\n\\]\n\n**FINAL ANSWER:** 0.0194",
+    "final_answer": "0.0194"
+  },
+  {
+    "id": "P18",
+    "topic": "E. Bayes' theorem",
+    "difficulty": "Hard",
+    "model": "openai/gpt-oss-120b",
+    "temperature": 0.0,
+    "tools_allowed": false,
+    "prompt": "Solve the following statistics problem. Show your reasoning, then give a final answer on a line starting 'FINAL ANSWER:'.\n\nProblem:\nConsider the same screening scenario as P17: an individual is drawn from a population with prevalence P(Infected) = 0.001. A diagnostic test has sensitivity 0.99 and specificity 0.95. The individual tests positive on the first test. To confirm, a second independent test (with identical sensitivity 0.99 and specificity 0.95, conditionally independent of the first test given infection status) is administered to the same individual and also returns positive. Using Bayes' theorem, calculate the updated posterior probability that the individual is infected (P(Infected | Test1+, Test2+)). Round your final answer to 4 decimal places.",
+    "raw_response": "**Reasoning**\n\nLet  \n\n- \\(D\\) = \u201cindividual is infected\u201d  \n- \\(\\bar D\\) = \u201cindividual is not infected\u201d  \n- \\(T_1^+,T_2^+\\) = \u201cfirst test positive, second test positive\u201d.\n\nPrior probability: \\(P(D)=0.001,\\; P(\\bar D)=0.999\\).\n\nTest characteristics  \n\n- Sensitivity \\(=P(T^+|D)=0.99\\)  \n- Specificity \\(=P(T^-|\\bar D)=0.95\\) \u2192 false\u2011positive rate \\(=1-0.95=0.05\\).\n\nBecause the two tests are conditionally independent given the infection status,\n\n\\[\nP(T_1^+,T_2^+|D)=0.99^2=0.9801,\n\\qquad\nP(T_1^+,T_2^+|\\bar D)=0.05^2=0.0025.\n\\]\n\nApply Bayes\u2019 theorem:\n\n\\[\nP(D\\mid T_1^+,T_2^+)=\n\\frac{P(T_1^+,T_2^+|D)P(D)}\n     {P(T_1^+,T_2^+|D)P(D)+P(T_1^+,T_2^+|\\bar D)P(\\bar D)}.\n\\]\n\nPlugging the numbers:\n\n\\[\n\\begin{aligned}\n\\text{Numerator} &= 0.9801 \\times 0.001 = 0.0009801,\\\\[4pt]\n\\text{Denominator} &= 0.0009801 + 0.0025 \\times 0.999 \\\\\n&= 0.0009801 + 0.0024975 = 0.0034776.\n\\end{aligned}\n\\]\n\n\\[\nP(D\\mid T_1^+,T_2^+)=\\frac{0.0009801}{0.0034776}\\approx 0.2818.\n\\]\n\n**Final answer**\n\n\\[\n\\boxed{0.2818}\n\\] (rounded to four decimal places)",
+    "final_answer": ""
+  },
+  {
+    "id": "P19",
+    "topic": "E. Bayes' theorem",
+    "difficulty": "Medium",
+    "model": "openai/gpt-oss-120b",
+    "temperature": 0.0,
+    "tools_allowed": false,
+    "prompt": "Solve the following statistics problem. Show your reasoning, then give a final answer on a line starting 'FINAL ANSWER:'.\n\nProblem:\nA component factory manufactures micro-sensors across three separate assembly lines: M1, M2, and M3.\n- Line M1 manufactures 50% of the total output (P(M1) = 0.50) with a defect rate of 2% (P(Defect | M1) = 0.02).\n- Line M2 manufactures 30% of the total output (P(M2) = 0.30) with a defect rate of 4% (P(Defect | M2) = 0.04).\n- Line M3 manufactures 20% of the total output (P(M3) = 0.20) with a defect rate of 10% (P(Defect | M3) = 0.10).\nA sensor is chosen uniformly at random from the factory's aggregate output and found to be defective upon inspection. Using Bayes' theorem, calculate the posterior probability that the defective sensor was produced by Line M3 (P(M3 | Defect)). Round your final answer to 4 decimal places.",
+    "raw_response": "**Solution using Bayes\u2019 theorem**\n\nWe want  \n\n\\[\nP(M_3\\mid\\text{Defect})=\\frac{P(\\text{Defect}\\mid M_3)\\,P(M_3)}{P(\\text{Defect})}.\n\\]\n\n---\n\n### 1. Compute the overall defect probability \\(P(\\text{Defect})\\)\n\n\\[\n\\begin{aligned}\nP(\\text{Defect}) &= P(\\text{Defect}\\mid M_1)P(M_1)\n                 + P(\\text{Defect}\\mid M_2)P(M_2)\n                 + P(\\text{Defect}\\mid M_3)P(M_3)\\\\\n&= (0.02)(0.50) + (0.04)(0.30) + (0.10)(0.20)\\\\\n&= 0.0100 + 0.0120 + 0.0200\\\\\n&= 0.0420.\n\\end{aligned}\n\\]\n\n---\n\n### 2. Compute the numerator for \\(M_3\\)\n\n\\[\nP(\\text{Defect}\\mid M_3)P(M_3) = (0.10)(0.20)=0.0200.\n\\]\n\n---\n\n### 3. Apply Bayes\u2019 theorem\n\n\\[\n\\begin{aligned}\nP(M_3\\mid\\text{Defect}) &= \\frac{0.0200}{0.0420}\n= \\frac{20}{42}\n= \\frac{10}{21}\n\\approx 0.476190476.\n\\end{aligned}\n\\]\n\nRounded to four decimal places:\n\n\\[\nP(M_3\\mid\\text{Defect}) \\approx 0.4762.\n\\]\n\n---\n\n**FINAL ANSWER:** 0.4762",
+    "final_answer": "0.4762"
+  },
+  {
+    "id": "P20",
+    "topic": "E. Bayes' theorem",
+    "difficulty": "Hard",
+    "model": "openai/gpt-oss-120b",
+    "temperature": 0.0,
+    "tools_allowed": false,
+    "prompt": "Solve the following statistics problem. Show your reasoning, then give a final answer on a line starting 'FINAL ANSWER:'.\n\nProblem:\nAn intelligence system evaluates three mutually exclusive and exhaustive threat hypotheses: H1, H2, and H3. The prior probabilities are:\n- P(H1) = 0.60\n- P(H2) = 0.30\n- P(H3) = 0.10\nNew surveillance evidence E is observed, with the following conditional likelihoods:\n- P(E | H1) = 0.15\n- P(E | H2) = 0.40\n- P(E | H3) = 0.80\nWhich hypothesis has the highest posterior probability given evidence E (the Maximum A Posteriori / MAP hypothesis)?\nA) H1\nB) H2\nC) H3\nD) H1 and H2 have identical posterior probabilities\nAnswer with a single letter (A, B, C, or D).",
+    "raw_response": "To find the MAP hypothesis we compute the posterior probability for each hypothesis using Bayes\u2019 rule  \n\n\\[\nP(H_i\\mid E)=\\frac{P(E\\mid H_i)P(H_i)}{P(E)},\n\\qquad \nP(E)=\\sum_{j}P(E\\mid H_j)P(H_j).\n\\]\n\n**Step 1: Compute the numerators**\n\n- \\(P(E\\mid H_1)P(H_1)=0.15 \\times 0.60 = 0.09\\)\n- \\(P(E\\mid H_2)P(H_2)=0.40 \\times 0.30 = 0.12\\)\n- \\(P(E\\mid H_3)P(H_3)=0.80 \\times 0.10 = 0.08\\)\n\n**Step 2: Compute the denominator**\n\n\\[\nP(E)=0.09+0.12+0.08 = 0.29.\n\\]\n\n**Step 3: Compute each posterior**\n\n\\[\n\\begin{aligned}\nP(H_1\\mid E) &= \\frac{0.09}{0.29} \\approx 0.31,\\\\[4pt]\nP(H_2\\mid E) &= \\frac{0.12}{0.29} \\approx 0.41,\\\\[4pt]\nP(H_3\\mid E) &= \\frac{0.08}{0.29} \\approx 0.28.\n\\end{aligned}\n\\]\n\nThe largest posterior probability is for \\(H_2\\).\n\n**Answer:** B\n\nFINAL ANSWER: B",
+    "final_answer": "B"
+  }
+]

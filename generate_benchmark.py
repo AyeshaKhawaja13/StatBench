@@ -1,0 +1,308 @@
+import json
+import csv
+import numpy as np
+import scipy.stats as stats
+import statsmodels.api as sm
+
+# Define the 20 benchmark problems
+problems = [
+    {
+        "id": "P01",
+        "topic": "A. Hypothesis testing",
+        "topic_short": "A",
+        "difficulty": "Easy",
+        "title": "One-sample z-test for a population proportion",
+        "question": "A quality control manager at a semiconductor manufacturing plant tests the claim that at most 5% of manufactured microchips are defective (H0: p <= 0.05 vs H1: p > 0.05). A simple random sample of n = 400 chips is inspected, revealing x = 28 defective chips. Conduct a one-sample z-test for the proportion at alpha = 0.05. Use the standard normal approximation without continuity correction, computing the standard error under the null hypothesis. What is the value of the test statistic z? Round your final answer to 3 decimal places.",
+        "format": "numeric",
+        "key": "1.835",
+        "rounding": "3 decimal places",
+        "trap_tag": "Using sample proportion p_hat instead of null proportion p0 in the standard error denominator (Wald vs Score statistic)"
+    },
+    {
+        "id": "P02",
+        "topic": "A. Hypothesis testing",
+        "topic_short": "A",
+        "difficulty": "Medium",
+        "title": "Paired t-test for dependent samples",
+        "question": "A clinical trial evaluates the efficacy of an antihypertensive drug on n = 10 hypertensive patients. Systolic blood pressure (mmHg) is measured before and after a 4-week treatment period. The recorded differences for each patient (d_i = After_i - Before_i) are: [-6, -4, -8, -5, -7, -3, -9, -4, -6, -8]. Assume the differences are approximately normally distributed. Conduct a paired-samples t-test for H0: mu_d = 0 versus H1: mu_d != 0 at alpha = 0.01. What is the value of the paired t-test statistic t? Round your final answer to 3 decimal places.",
+        "format": "numeric",
+        "key": "-9.487",
+        "rounding": "3 decimal places",
+        "trap_tag": "Treating paired repeated-measures data as two independent samples (inflating standard error and df to 18)"
+    },
+    {
+        "id": "P03",
+        "topic": "A. Hypothesis testing",
+        "topic_short": "A",
+        "difficulty": "Hard",
+        "title": "Welch's two-sample t-test with unequal variances",
+        "question": "An agronomist compares crop yields (in bushels/acre) from two independent randomized plots using two distinct soil treatments.\nPlot 1: n1 = 12, sample mean xbar1 = 24.5, sample standard deviation s1 = 1.8\nPlot 2: n2 = 25, sample mean xbar2 = 21.0, sample standard deviation s2 = 4.2\nThe population variances cannot be assumed equal (sigma1^2 != sigma2^2). Using Welch's two-sample t-test (unpooled variance) for H0: mu1 - mu2 = 0 versus H1: mu1 - mu2 != 0, calculate the test statistic t. Round your final answer to 3 decimal places.",
+        "format": "numeric",
+        "key": "3.543",
+        "rounding": "3 decimal places",
+        "trap_tag": "Using Student's pooled variance two-sample t-test assuming homoscedasticity when variances differ by more than a factor of 5"
+    },
+    {
+        "id": "P04",
+        "topic": "A. Hypothesis testing",
+        "topic_short": "A",
+        "difficulty": "Medium",
+        "title": "Pearson's Chi-square test of independence",
+        "question": "A medical trial evaluates patient recovery under two treatments. A random sample of 200 patients yields the following 2x2 contingency table:\n- Treatment A: 40 Recovered, 60 Not Recovered (Total = 100)\n- Treatment B: 60 Recovered, 40 Not Recovered (Total = 100)\nCalculate Pearson's chi-square test statistic (chi^2) for testing independence between treatment and recovery, without applying Yates' continuity correction. Round your final answer to 3 decimal places.",
+        "format": "numeric",
+        "key": "8.000",
+        "rounding": "3 decimal places",
+        "trap_tag": "Applying Yates' continuity correction when uncorrected Pearson chi-square is requested, or dividing by grand total instead of expected frequencies"
+    },
+    {
+        "id": "P05",
+        "topic": "B. Confidence intervals",
+        "topic_short": "B",
+        "difficulty": "Easy",
+        "title": "Confidence interval for normal mean with small n and unknown sigma",
+        "question": "A chemical engineer measures the concentration of an active compound in n = 9 batches produced under identical conditions. The population is assumed to be normally distributed with unknown variance. The sample mean is xbar = 50.0 mg/L and the sample standard deviation is s = 6.0 mg/L. Calculate the upper limit of a two-sided 95% confidence interval for the true population mean mu. Round your final answer to 3 decimal places.",
+        "format": "numeric",
+        "key": "54.612",
+        "rounding": "3 decimal places",
+        "trap_tag": "Using standard normal critical value z = 1.960 instead of Student's t critical value t_{0.025, 8} = 2.3060 for small sample size with unknown sigma"
+    },
+    {
+        "id": "P06",
+        "topic": "B. Confidence intervals",
+        "topic_short": "B",
+        "difficulty": "Medium",
+        "title": "Confidence interval for difference in means with known population variances",
+        "question": "Two industrial machines fill containers with liquid detergent. The fill volumes are normally distributed with known population variances: Machine 1 has sigma1^2 = 16.0, and Machine 2 has sigma2^2 = 25.0. Independent random samples are drawn:\n- Machine 1: n1 = 15, xbar1 = 78.0 mL\n- Machine 2: n2 = 20, xbar2 = 72.0 mL\nCalculate the margin of error (half-width) for a two-sided 99% confidence interval for the difference between the two population means (mu1 - mu2). Round your final answer to 3 decimal places.",
+        "format": "numeric",
+        "key": "3.921",
+        "rounding": "3 decimal places",
+        "trap_tag": "Reflexively using Student's t-distribution because sample sizes are small (n1=15, n2=20), ignoring that population variances sigma1^2, sigma2^2 are explicitly known"
+    },
+    {
+        "id": "P07",
+        "topic": "B. Confidence intervals",
+        "topic_short": "B",
+        "difficulty": "Medium",
+        "title": "Wald confidence interval lower bound for a single proportion",
+        "question": "In a random survey of n = 100 registered voters in a municipality, x = 35 respondents indicate support for a proposed transit tax. Using the standard Wald confidence interval formula for a single population proportion, calculate the lower bound of a two-sided 95% confidence interval for the true population proportion p. Round your final answer to 4 decimal places.",
+        "format": "numeric",
+        "key": "0.2565",
+        "rounding": "4 decimal places",
+        "trap_tag": "Using null proportion p0 = 0.5 in the standard error formula instead of sample proportion p_hat = 0.35, or applying Wilson/Agresti-Coull adjustment"
+    },
+    {
+        "id": "P08",
+        "topic": "B. Confidence intervals",
+        "topic_short": "B",
+        "difficulty": "Hard",
+        "title": "Confidence interval margin of error for difference in proportions",
+        "question": "An A/B test is conducted to compare conversion rates of two website landing page designs:\n- Design A: n1 = 200 visitors, x1 = 80 conversions\n- Design B: n2 = 250 visitors, x2 = 60 conversions\nUsing the standard unpooled Wald method for independent samples, calculate the margin of error (half-width) of a two-sided 90% confidence interval for the difference in conversion proportions (p1 - p2). Round your final answer to 4 decimal places.",
+        "format": "numeric",
+        "key": "0.0723",
+        "rounding": "4 decimal places",
+        "trap_tag": "Incorrectly pooling the sample proportions into p_pooled (a procedure valid only for null hypothesis testing of equal proportions, not confidence intervals)"
+    },
+    {
+        "id": "P09",
+        "topic": "C. p-value interpretation",
+        "topic_short": "C",
+        "difficulty": "Easy",
+        "title": "Formal definition of a p-value",
+        "question": "A clinical trial testing a new headache medication against an active control reports a two-tailed p-value of p = 0.03. Which of the following statements provides the only correct definition and interpretation of this p-value?\nA) There is a 3% probability that the null hypothesis of no difference between treatments is true.\nB) There is a 97% probability that the new medication is superior to the control.\nC) Assuming that the null hypothesis is true, the probability of observing a test statistic at least as extreme as the one calculated from the sample data is 0.03.\nD) The probability of obtaining a false positive result if this experiment is replicated under identical conditions is exactly 0.03.\nAnswer with a single letter (A, B, C, or D).",
+        "format": "mcq",
+        "options": {
+            "A": "There is a 3% probability that the null hypothesis of no difference between treatments is true.",
+            "B": "There is a 97% probability that the new medication is superior to the control.",
+            "C": "Assuming that the null hypothesis is true, the probability of observing a test statistic at least as extreme as the one calculated from the sample data is 0.03.",
+            "D": "The probability of obtaining a false positive result if this experiment is replicated under identical conditions is exactly 0.03."
+        },
+        "key": "C",
+        "rounding": "single letter (A-D)",
+        "trap_tag": "Inverse probability fallacy: interpreting p-value as P(H0 | Data) rather than P(extreme Data | H0)"
+    },
+    {
+        "id": "P10",
+        "topic": "C. p-value interpretation",
+        "topic_short": "C",
+        "difficulty": "Medium",
+        "title": "Statistical significance versus practical significance",
+        "question": "In an observational study tracking n = 500,000 office workers over two years, an ergonomic software tool was found to reduce daily sedentary time by an average of 42 seconds (95% CI: [38, 46] seconds, p < 0.0001). A company executive announces: 'Because the p-value is less than 0.0001, this tool provides overwhelming practical health benefits and transforms workplace activity levels.' Which of the following evaluations of the executive's claim is most accurate?\nA) The executive is correct because an extremely small p-value guarantees a large magnitude of effect in the population.\nB) The executive is incorrect because in very large sample sizes, tiny effects with negligible practical importance can produce minuscule p-values.\nC) The executive is correct because the narrow confidence interval confirms that the magnitude of change is clinically substantial.\nD) The executive is incorrect because any study with n > 100,000 automatically violates Gauss-Markov assumptions.\nAnswer with a single letter (A, B, C, or D).",
+        "format": "mcq",
+        "options": {
+            "A": "The executive is correct because an extremely small p-value guarantees a large magnitude of effect in the population.",
+            "B": "The executive is incorrect because in very large sample sizes, tiny effects with negligible practical importance can produce minuscule p-values.",
+            "C": "The executive is correct because the narrow confidence interval confirms that the magnitude of change is clinically substantial.",
+            "D": "The executive is incorrect because any study with n > 100,000 automatically violates Gauss-Markov assumptions."
+        },
+        "key": "B",
+        "rounding": "single letter (A-D)",
+        "trap_tag": "Conflating statistical significance (rejecting null due to massive n) with practical effect magnitude"
+    },
+    {
+        "id": "P11",
+        "topic": "C. p-value interpretation",
+        "topic_short": "C",
+        "difficulty": "Hard",
+        "title": "Absence of evidence versus evidence of absence",
+        "question": "A pilot safety trial with n = 12 patients evaluates whether a new compound induces cardiac arrhythmias compared to baseline. A two-tailed paired t-test yields t = 0.91 and p = 0.38. The lead investigator writes in the report: 'Because p > 0.05, we accept the null hypothesis and conclude that the compound produces zero arrhythmic side effects.' Why is the investigator's conclusion logically and methodologically invalid?\nA) A p-value above alpha fails to reject H0, but does not prove H0 is true; the small sample size may have resulted in inadequate statistical power to detect a clinically meaningful difference.\nB) The investigator should have concluded that there is a 38% probability that the drug causes arrhythmia.\nC) A paired t-test cannot be interpreted whenever p > 0.10.\nD) The investigator was required to divide the p-value by 2 before comparing it to alpha = 0.05.\nAnswer with a single letter (A, B, C, or D).",
+        "format": "mcq",
+        "options": {
+            "A": "A p-value above alpha fails to reject H0, but does not prove H0 is true; the small sample size may have resulted in inadequate statistical power to detect a clinically meaningful difference.",
+            "B": "The investigator should have concluded that there is a 38% probability that the drug causes arrhythmia.",
+            "C": "A paired t-test cannot be interpreted whenever p > 0.10.",
+            "D": "The investigator was required to divide the p-value by 2 before comparing it to alpha = 0.05."
+        },
+        "key": "A",
+        "rounding": "single letter (A-D)",
+        "trap_tag": "Accepting the null hypothesis: treating failure to reject H0 as proof of zero effect (especially under low statistical power)"
+    },
+    {
+        "id": "P12",
+        "topic": "C. p-value interpretation",
+        "topic_short": "C",
+        "difficulty": "Medium",
+        "title": "Multiple testing and family-wise error rate",
+        "question": "A genomics researcher tests 20 independent null hypotheses, conducting each hypothesis test at a nominal significance level of alpha = 0.05. Assuming that all 20 null hypotheses are actually true, what is the exact probability (rounded to 3 decimal places) that the researcher will obtain at least one statistically significant result (Type I error) if no multiple testing correction is applied?\nA) 0.050\nB) 0.358\nC) 0.642\nD) 1.000\nAnswer with a single letter (A, B, C, or D).",
+        "format": "mcq",
+        "options": {
+            "A": "0.050",
+            "B": "0.358",
+            "C": "0.642",
+            "D": "1.000"
+        },
+        "key": "C",
+        "rounding": "single letter (A-D)",
+        "trap_tag": "Assuming experiment-wise alpha stays at 0.05 or calculating P(0 false positives) = 0.358 instead of 1 - P(0 false positives)"
+    },
+    {
+        "id": "P13",
+        "topic": "D. Regression assumptions",
+        "topic_short": "D",
+        "difficulty": "Easy",
+        "title": "Multicollinearity and Variance Inflation Factor",
+        "question": "An analyst fits an Ordinary Least Squares (OLS) multiple linear regression model predicting vehicle fuel economy. The diagnostic evaluation reports a Variance Inflation Factor (VIF) of 14.8 for the predictor variable 'vehicle weight'. Which of the following is the most direct consequence and accurate econometric interpretation of this diagnostic result?\nA) The OLS point estimate of the regression coefficient for vehicle weight is biased and systematically overestimates the true effect.\nB) High collinearity with other explanatory variables inflates the standard error of the coefficient for vehicle weight, reducing the precision of its estimation and statistical power.\nC) The regression residuals violate the assumption of normality, rendering large-sample z-tests invalid.\nD) The relationship between vehicle weight and fuel economy is fundamentally nonlinear, requiring an exponential transformation.\nAnswer with a single letter (A, B, C, or D).",
+        "format": "mcq",
+        "options": {
+            "A": "The OLS point estimate of the regression coefficient for vehicle weight is biased and systematically overestimates the true effect.",
+            "B": "High collinearity with other explanatory variables inflates the standard error of the coefficient for vehicle weight, reducing the precision of its estimation and statistical power.",
+            "C": "The regression residuals violate the assumption of normality, rendering large-sample z-tests invalid.",
+            "D": "The relationship between vehicle weight and fuel economy is fundamentally nonlinear, requiring an exponential transformation."
+        },
+        "key": "B",
+        "rounding": "single letter (A-D)",
+        "trap_tag": "Believing multicollinearity causes bias in OLS coefficient estimates rather than variance inflation"
+    },
+    {
+        "id": "P14",
+        "topic": "D. Regression assumptions",
+        "topic_short": "D",
+        "difficulty": "Medium",
+        "title": "Heteroscedasticity from residual vs fitted plot",
+        "question": "An econometrician estimates a hedonic wage equation via OLS and plots the residuals against the fitted values (y_hat). The plot reveals a clear 'funnel' (fan) pattern: the dispersion of the residuals increases systematically as the fitted wage increases. Which regression assumption is violated, and what is its primary consequence for OLS estimation?\nA) Linearity is violated; OLS coefficient estimates are biased and inconsistent.\nB) Independence of errors is violated; sequential residuals have a non-zero covariance.\nC) Homoscedasticity (constant variance of errors) is violated; OLS coefficient point estimates remain unbiased, but standard OLS standard errors are biased, invalidating standard hypothesis tests and confidence intervals.\nD) Normality of errors is violated; the Gauss-Markov theorem no longer applies to the expected values of the estimators.\nAnswer with a single letter (A, B, C, or D).",
+        "format": "mcq",
+        "options": {
+            "A": "Linearity is violated; OLS coefficient estimates are biased and inconsistent.",
+            "B": "Independence of errors is violated; sequential residuals have a non-zero covariance.",
+            "C": "Homoscedasticity (constant variance of errors) is violated; OLS coefficient point estimates remain unbiased, but standard OLS standard errors are biased, invalidating standard hypothesis tests and confidence intervals.",
+            "D": "Normality of errors is violated; the Gauss-Markov theorem no longer applies to the expected values of the estimators."
+        },
+        "key": "C",
+        "rounding": "single letter (A-D)",
+        "trap_tag": "Assuming heteroscedasticity causes bias in OLS coefficient estimates (coefficients remain unbiased; SEs are biased)"
+    },
+    {
+        "id": "P15",
+        "topic": "D. Regression assumptions",
+        "topic_short": "D",
+        "difficulty": "Hard",
+        "title": "Durbin-Watson statistic and serial correlation",
+        "question": "A macroeconomist estimates an OLS regression model of quarterly inflation using 80 sequential quarterly observations. The Durbin-Watson statistic computed from the OLS residuals is d = 0.58. What does this diagnostic statistic indicate regarding the regression error terms?\nA) Strong evidence of positive first-order autocorrelation among the residuals (d close to 0 indicates positive serial correlation).\nB) Strong evidence of negative first-order autocorrelation among the residuals (d < 2.0 indicates negative serial correlation).\nC) No evidence of serial correlation, because the value is well within the acceptable distance from 0.\nD) Residuals are perfectly independent, but the model suffers from severe structural multicollinearity.\nAnswer with a single letter (A, B, C, or D).",
+        "format": "mcq",
+        "options": {
+            "A": "Strong evidence of positive first-order autocorrelation among the residuals (d close to 0 indicates positive serial correlation).",
+            "B": "Strong evidence of negative first-order autocorrelation among the residuals (d < 2.0 indicates negative serial correlation).",
+            "C": "No evidence of serial correlation, because the value is well within the acceptable distance from 0.",
+            "D": "Residuals are perfectly independent, but the model suffers from severe structural multicollinearity."
+        },
+        "key": "A",
+        "rounding": "single letter (A-D)",
+        "trap_tag": "Inverting the Durbin-Watson scale: confusing d near 0 (positive autocorrelation) with negative autocorrelation or zero correlation"
+    },
+    {
+        "id": "P16",
+        "topic": "D. Regression assumptions",
+        "topic_short": "D",
+        "difficulty": "Medium",
+        "title": "Q-Q plot interpretation of residual distribution",
+        "question": "An applied statistician inspects a normal Q-Q (quantile-quantile) plot of standardized OLS regression residuals. The plotted points deviate from the 45-degree reference line in a distinct 'S' pattern: in the lower tail (left), the empirical sample quantiles are lower than the theoretical normal quantiles; in the upper tail (right), the empirical sample quantiles are higher than the theoretical normal quantiles. What distribution characteristic of the residuals does this pattern signify?\nA) Heavy tails (leptokurtosis), indicating that extreme residual values occur more frequently than expected under a normal distribution.\nB) Light tails (platykurtosis), indicating that extreme residual values occur less frequently than expected under a normal distribution.\nC) Pronounced right (positive) skewness with thin left tails.\nD) Pronounced left (negative) skewness with thin right tails.\nAnswer with a single letter (A, B, C, or D).",
+        "format": "mcq",
+        "options": {
+            "A": "Heavy tails (leptokurtosis), indicating that extreme residual values occur more frequently than expected under a normal distribution.",
+            "B": "Light tails (platykurtosis), indicating that extreme residual values occur less frequently than expected under a normal distribution.",
+            "C": "Pronounced right (positive) skewness with thin left tails.",
+            "D": "Pronounced left (negative) skewness with thin right tails."
+        },
+        "key": "A",
+        "rounding": "single letter (A-D)",
+        "trap_tag": "Inverting Q-Q plot tail interpretation (confusing heavy tails with light tails or skewness)"
+    },
+    {
+        "id": "P17",
+        "topic": "E. Bayes' theorem",
+        "topic_short": "E",
+        "difficulty": "Easy",
+        "title": "Bayes' theorem for rare disease screening",
+        "question": "A rapid antigen test for a rare viral infection has a sensitivity of 99% (P(Positive | Infected) = 0.99) and a specificity of 95% (P(Negative | Not Infected) = 0.95). In the target population, the disease prevalence is 0.1% (P(Infected) = 0.001). An asymptomatic individual from this population is randomly selected, tested, and receives a positive test result. Using Bayes' theorem, calculate the posterior probability that this individual is actually infected (P(Infected | Positive)). Round your final answer to 4 decimal places.",
+        "format": "numeric",
+        "key": "0.0194",
+        "rounding": "4 decimal places",
+        "trap_tag": "Base rate neglect: intuiting posterior is ~95-99% by confusing P(Infected | Positive) with P(Positive | Infected)"
+    },
+    {
+        "id": "P18",
+        "topic": "E. Bayes' theorem",
+        "topic_short": "E",
+        "difficulty": "Hard",
+        "title": "Sequential Bayesian updating with two independent tests",
+        "question": "Consider the same screening scenario as P17: an individual is drawn from a population with prevalence P(Infected) = 0.001. A diagnostic test has sensitivity 0.99 and specificity 0.95. The individual tests positive on the first test. To confirm, a second independent test (with identical sensitivity 0.99 and specificity 0.95, conditionally independent of the first test given infection status) is administered to the same individual and also returns positive. Using Bayes' theorem, calculate the updated posterior probability that the individual is infected (P(Infected | Test1+, Test2+)). Round your final answer to 4 decimal places.",
+        "format": "numeric",
+        "key": "0.2818",
+        "rounding": "4 decimal places",
+        "trap_tag": "Assuming two consecutive positive tests guarantee >90% posterior certainty, or incorrectly compounding probabilities"
+    },
+    {
+        "id": "P19",
+        "topic": "E. Bayes' theorem",
+        "topic_short": "E",
+        "difficulty": "Medium",
+        "title": "Multi-hypothesis Bayesian updating across three production lines",
+        "question": "A component factory manufactures micro-sensors across three separate assembly lines: M1, M2, and M3.\n- Line M1 manufactures 50% of the total output (P(M1) = 0.50) with a defect rate of 2% (P(Defect | M1) = 0.02).\n- Line M2 manufactures 30% of the total output (P(M2) = 0.30) with a defect rate of 4% (P(Defect | M2) = 0.04).\n- Line M3 manufactures 20% of the total output (P(M3) = 0.20) with a defect rate of 10% (P(Defect | M3) = 0.10).\nA sensor is chosen uniformly at random from the factory's aggregate output and found to be defective upon inspection. Using Bayes' theorem, calculate the posterior probability that the defective sensor was produced by Line M3 (P(M3 | Defect)). Round your final answer to 4 decimal places.",
+        "format": "numeric",
+        "key": "0.4762",
+        "rounding": "4 decimal places",
+        "trap_tag": "Focusing solely on Line M3's highest defect rate (10%) while neglecting its smaller production share (20%), or forgetting to normalize by total defect rate"
+    },
+    {
+        "id": "P20",
+        "topic": "E. Bayes' theorem",
+        "topic_short": "E",
+        "difficulty": "Hard",
+        "title": "Maximum A Posteriori (MAP) hypothesis selection",
+        "question": "An intelligence system evaluates three mutually exclusive and exhaustive threat hypotheses: H1, H2, and H3. The prior probabilities are:\n- P(H1) = 0.60\n- P(H2) = 0.30\n- P(H3) = 0.10\nNew surveillance evidence E is observed, with the following conditional likelihoods:\n- P(E | H1) = 0.15\n- P(E | H2) = 0.40\n- P(E | H3) = 0.80\nWhich hypothesis has the highest posterior probability given evidence E (the Maximum A Posteriori / MAP hypothesis)?\nA) H1\nB) H2\nC) H3\nD) H1 and H2 have identical posterior probabilities\nAnswer with a single letter (A, B, C, or D).",
+        "format": "mcq",
+        "options": {
+            "A": "H1",
+            "B": "H2",
+            "C": "H3",
+            "D": "H1 and H2 have identical posterior probabilities"
+        },
+        "key": "B",
+        "rounding": "single letter (A-D)",
+        "trap_tag": "Selecting H1 due to highest prior (0.60) or H3 due to highest likelihood (0.80), missing the joint maximum H2 (0.120)"
+    }
+]
+
+# Write problems.json
+with open("problems.json", "w", encoding="utf-8") as f:
+    json.dump(problems, f, indent=2)
+print("Saved problems.json successfully.")
